@@ -65,8 +65,8 @@ function writeresult(log)
     end
 end
 
--- run before each frame
-emu.registerbefore(function ()
+-- run on each frame
+emu.registerafter(function ()
     -- set player to have 1 frame of iframes every frame
     memory.writebyte(InjuryTimer, 0x1)
 

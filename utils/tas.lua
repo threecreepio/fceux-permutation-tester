@@ -67,6 +67,9 @@ end
 function jump_to_frame(target, after)
     local prev = nil
     prev = emu.registerafter(function ()
+        if prev ~= nil then
+            prev()
+        end
         if emu.framecount() >= target then
             emu.registerafter(prev)
             if after ~= nil then
@@ -76,18 +79,6 @@ function jump_to_frame(target, after)
     end)
     taseditor.setplayback(target)
     emu.unpause()
-end
-
-function seek_frame(target)
-    local fc = emu.framecount()
-    if target < fc then
-        taseditor.setplayback(target - 1)
-        emu.frameadvance()
-    else
-        for f=fc,target-1,1 do
-            emu.frameadvance()
-        end
-    end
 end
 
 function string:split(sep)
