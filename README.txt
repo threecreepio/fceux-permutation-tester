@@ -21,24 +21,19 @@ Run the script and set your emulator speed to turbo.
 As the script runs it will create a csv output file with lines that look something like this:
 
 ```
-01,02,03,04, result
-  ,  ,  ,  , 1
-  ,  ,  , 1, 12
-  ,  , 1,  , 1
-  ,  , 1, 1, 4
-  , 1,  ,  , 1
-  , 1,  , 1, 1
+LA,H1,H2,CK,CB,PN,GK,result
+  ,  ,  ,  ,  ,  ,  ,      ,      
+  ,  ,  ,  ,  ,  , B,      ,      
+  ,  ,  ,  ,  , B,  ,      ,      
+  ,  ,  ,  ,  , B, B,      ,      
+  ,  ,  ,  , L,  ,  ,      ,      
+  ,  ,  ,  , L,  , B,L-3070,      
+  ,  ,  ,  , L, B,  ,      ,      
 ```
 
-To get a tas file set up for any particular combination, copy the full line, for example: "  ,  , 1, 1, 4" into the top of the file "test.lua" in the line that says permutationstring.
-So for this example it would say:
+To run a specific line on its own, open a new Lua Script window in FCEUX (with the rom loaded, and tas window opened) select the file "test.lua" and copy+paste the line from the file into "Arguments" in the Lua window, then run the script.
 
-```
-permutationstring = "  ,  , 1, 1, 4"
-```
-
-Then run the test.lua script in FCEUX with the correct rom + tas opened, and it will load in the tas files that were used for that permutation.
-
+This will load in all the tas files that were used for that particular test.
 
 
 # Setting up tests

@@ -1,11 +1,12 @@
 require('./utils/smb')
+-- which framerule to test
 framerule = 551
 
 -- base file to include before all the variations
 base = load_tas_inputs("tas\\base.tas")
 
 --- csv file to write results into
-filename = string.format("%d.csv", framerule)
+filename = string.format("%s.csv", framerule)
 
 variations = {}
 variations[1]  = { group = "LA", name = "DE", insertAt =  403, inputs = load_tas_inputs("tas\\lakitu-spiny-despawn.tas") }
@@ -83,7 +84,7 @@ emu.registerafter(function ()
         local seed = smb1rng_init()
         -- step the rng the amount of frames needed to advance to the framerule we want
         -- which is 4 frames before the actual framerule
-        seed = smb1rng_advance(seed, (framerule * 21) - 4)
+        seed = smb1rng_advance(seed, (tonumber(framerule) * 21) - 4)
         print(string.format("setting rng to %02X%02X%02X%02X%02X%02X%02X", seed[1], seed[2], seed[3], seed[4], seed[5], seed[6], seed[7]))
         -- and overwrite the games rng values
         smb1rng_apply(seed)

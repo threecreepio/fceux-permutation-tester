@@ -1,10 +1,8 @@
 require('./utils/tas')
 require('./describe')
 
--- copy a full line from the csv file
-permutationstring = "  ,  , 1, 5"
-
-
+-- set permutation string from the lua window arguments
+permutationstring = arg
 
 ---
 selections = permutationstring:gsub("\\s+", ""):split_to_numbers(",")
