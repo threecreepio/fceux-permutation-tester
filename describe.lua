@@ -84,6 +84,11 @@ emu.registerafter(function ()
         memory.writebyte(Player_Y_Position, 176)
     end
 
+    -- move player up to skip the gauntlet section
+    if emu.framecount() == 1351  then
+        memory.writebyte(Player_Y_Position, 0)
+    end
+
     -- if we're on the frame before the level becomes visible in base.tas
     if emu.framecount() == 250 then
         local seed = smb1rng_init()
