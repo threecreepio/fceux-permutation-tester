@@ -8,6 +8,7 @@ local previous = -1
 variations_inv = {}
 for i=#variations,1,-1 do
     variations_inv[#variations_inv + 1] = variations[i]
+    variations[i].column = #variations_inv
     log:write(string.format("%02d,", #variations_inv))
 end
 log:write(" result\n")
@@ -78,7 +79,7 @@ function continue_permutations()
             starting_frame = find_starting_frame(previous, p)
             apply_tas_inputs(base, starting_frame, starting_frame)
             for i=1,#configuration,1 do
-                print(string.format("applying %d - %s at frame %d", i, configuration[i].inputs.filename, configuration[i].insertAt))
+                print(string.format("applying %d - %s at frame %d", configuration[i].column, configuration[i].inputs.filename, configuration[i].insertAt))
                 apply_tas_inputs(configuration[i].inputs, configuration[i].insertAt)
             end
             previous = p

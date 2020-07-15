@@ -18,13 +18,15 @@ variations[6]  = { groups = {"hallway2"},    insertAt =  640, inputs = load_tas_
 variations[7]  = { groups = {"hallway2"},    insertAt =  640, inputs = load_tas_inputs("tas\\hallway-2-3.tas") }
 variations[8]  = { groups = {"hallway2"},    insertAt =  640, inputs = load_tas_inputs("tas\\hallway-2-4.tas") }
 variations[9]  = { groups = {"hallway2"},    insertAt =  640, inputs = load_tas_inputs("tas\\hallway-2-5.tas") }
-variations[10] = { groups = {"cannonkoop1"}, insertAt =  800, inputs = load_tas_inputs("tas\\cannonkoop1-early.tas") }
-variations[11] = { groups = {"cannonkoop1"}, insertAt =  800, inputs = load_tas_inputs("tas\\cannonkoop1-late.tas") }
-variations[12] = { groups = {"cannonkoop2"}, insertAt =  855, inputs = load_tas_inputs("tas\\cannonkoop2-1.tas") }
-variations[13] = { groups = {"cannonbuzzy"}, insertAt =  927, inputs = load_tas_inputs("tas\\cannonbuzzy-1.tas") }
-variations[14] = { groups = {"cannonbuzzy"}, insertAt =  927, inputs = load_tas_inputs("tas\\cannonbuzzy-2.tas") }
-variations[15] = { groups = {"pen"},         insertAt = 1060, inputs = load_tas_inputs("tas\\pen-1.tas") }
-variations[16] = { groups = {"gauntlet"},    insertAt = 1320, inputs = load_tas_inputs("tas\\gauntlet-1.tas") }
+variations[10] = { groups = {"cannonkoops"}, insertAt =  800, inputs = load_tas_inputs("tas\\cannonkoops-1.tas") }
+variations[11] = { groups = {"cannonkoops"}, insertAt =  800, inputs = load_tas_inputs("tas\\cannonkoops-2.tas") }
+variations[12] = { groups = {"cannonkoops"}, insertAt =  800, inputs = load_tas_inputs("tas\\cannonkoops-3.tas") }
+variations[13] = { groups = {"cannonkoops"}, insertAt =  800, inputs = load_tas_inputs("tas\\cannonkoops-4.tas") }
+variations[14] = { groups = {"cannonkoops"}, insertAt =  800, inputs = load_tas_inputs("tas\\cannonkoops-5.tas") }
+variations[15] = { groups = {"cannonbuzzy"}, insertAt =  927, inputs = load_tas_inputs("tas\\cannonbuzzy-1.tas") }
+variations[16] = { groups = {"cannonbuzzy"}, insertAt =  927, inputs = load_tas_inputs("tas\\cannonbuzzy-2.tas") }
+variations[17] = { groups = {"pen"},         insertAt = 1060, inputs = load_tas_inputs("tas\\pen-1.tas") }
+variations[18] = { groups = {"gauntlet"},    insertAt = 1320, inputs = load_tas_inputs("tas\\gauntlet-1.tas") }
 
 
 --- final frame where the result is printed
@@ -77,7 +79,7 @@ emu.registerafter(function ()
         -- step the rng the amount of frames needed to advance to the framerule we want
         -- which is 4 frames before the actual framerule
         seed = smb1rng_advance(seed, (framerule * 21) - 4)
-        print(string.format("%02X%02X%02X%02X%02X%02X%02X", seed[1], seed[2], seed[3], seed[4], seed[5], seed[6], seed[7]))
+        print(string.format("setting rng to %02X%02X%02X%02X%02X%02X%02X", seed[1], seed[2], seed[3], seed[4], seed[5], seed[6], seed[7]))
         -- and overwrite the games rng values
         smb1rng_apply(seed)
     end
