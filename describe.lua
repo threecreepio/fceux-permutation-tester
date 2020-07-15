@@ -79,6 +79,11 @@ emu.registerafter(function ()
     -- set player to have 1 frame of iframes every frame
     memory.writebyte(InjuryTimer, 0x02)
 
+    -- move player up to ground if we're falling to our death
+    if memory.readbyte(Player_Y_Position) > 178 and memory.readbyte(Player_Y_HighPos) > 0 then
+        memory.writebyte(Player_Y_Position, 176)
+    end
+
     -- if we're on the frame before the level becomes visible in base.tas
     if emu.framecount() == 250 then
         local seed = smb1rng_init()
