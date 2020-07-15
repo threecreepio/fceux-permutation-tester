@@ -9,6 +9,9 @@ The resulting file can be imported into google docs / ms excel or similar for fu
 # Running the script
 
 To run the script, start FCEUX, open the rom you intend to test and a TAS editor, then load "main.lua" into a lua window.
+
+Make sure you have 2 controllers enabled in the TAS!
+
 Run the script and set your emulator speed to turbo.
 
 

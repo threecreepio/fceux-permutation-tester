@@ -47,6 +47,15 @@ function load_tas_inputs(filename)
     return result
 end
 
+function cachebreak(frame)
+    local new_inputs = bit.band(0xFF, taseditor.getinput(frame, 2) + 1)
+    taseditor.stopseeking()
+    taseditor.setplayback(0)
+    taseditor.submitinputchange(frame, 2, new_inputs)
+    taseditor.applyinputchanges()
+    taseditor.setplayback(10000)
+end
+
 function apply_tas_inputs(inputs, frame)
     j=frame
     taseditor.stopseeking()

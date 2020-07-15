@@ -96,4 +96,5 @@ function continue_permutations()
     emu.pause()
 end
 
+cachebreak(1)
 continue_permutations()

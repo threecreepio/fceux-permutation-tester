@@ -39,6 +39,8 @@ end)
 
 local base = load_tas_inputs("tas\\base.tas")
 apply_tas_inputs(base, 0)
+cachebreak(1)
+
 for v=1,#variations,1 do
     if selections[v] == 1 then
         local variant = variations[v]
