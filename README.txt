@@ -51,9 +51,16 @@ What's most important is the list of variations, these look like:
 
 ```
 variations[1] = {
-    groups = {"enter-door"},
+    group = "Door ",
+    name  = "Early",
     insertAt = 2000,
     inputs = load_tas_inputs("tas\\enter-door-early.tas")
+}
+variations[2] = {
+    group = "Door ",
+    name  = "Late ",
+    insertAt = 2000,
+    inputs = load_tas_inputs("tas\\enter-door-late.tas")
 }
 ```
 
@@ -66,7 +73,9 @@ will be written starting on frame 2000.
 To create the tas files, select some frames in FCEUX tas editor, copy them, and paste them into a text file and save it as "whatever.tas"
 
 The script that runs the tas will make sure there's only one variation loaded per "group", so if you have two scripts like "enter-door-early" and "enter-door-late"
-that conflict with eachother you can place them in an "enter-door" group for example and they will never be used at the same time.
+that conflict with eachother you can place them in an "Door" group for example and they will never be used at the same time.
+
+Every variation must have a group, and the "group" and "name" values should have the same length if you want the CSV file to be easy to read.
 
 ## Printing results
 

@@ -1,5 +1,5 @@
 require('./utils/smb')
-framerule = 548
+framerule = 551
 
 -- base file to include before all the variations
 base = load_tas_inputs("tas\\base.tas")
@@ -8,25 +8,30 @@ base = load_tas_inputs("tas\\base.tas")
 filename = string.format("%d.csv", framerule)
 
 variations = {}
-variations[1]  = { groups = {"lakitu"},      insertAt =  403, inputs = load_tas_inputs("tas\\lakitu-spiny-despawn.tas") }
-variations[2]  = { groups = {"lakitu"},      insertAt =  403, inputs = load_tas_inputs("tas\\lakitu-early-bop.tas") }
-variations[3]  = { groups = {"lakitu"},      insertAt =  403, inputs = load_tas_inputs("tas\\lakitu-late-bop.tas") }
-variations[4]  = { groups = {"hallway1"},    insertAt =  580, inputs = load_tas_inputs("tas\\hallway-1-early.tas") }
-variations[5]  = { groups = {"hallway1"},    insertAt =  580, inputs = load_tas_inputs("tas\\hallway-1-late.tas") }
-variations[5]  = { groups = {"hallway2"},    insertAt =  640, inputs = load_tas_inputs("tas\\hallway-2-1.tas") }
-variations[6]  = { groups = {"hallway2"},    insertAt =  640, inputs = load_tas_inputs("tas\\hallway-2-2.tas") }
-variations[7]  = { groups = {"hallway2"},    insertAt =  640, inputs = load_tas_inputs("tas\\hallway-2-3.tas") }
-variations[8]  = { groups = {"hallway2"},    insertAt =  640, inputs = load_tas_inputs("tas\\hallway-2-4.tas") }
-variations[9]  = { groups = {"hallway2"},    insertAt =  640, inputs = load_tas_inputs("tas\\hallway-2-5.tas") }
-variations[10] = { groups = {"cannonkoops"}, insertAt =  800, inputs = load_tas_inputs("tas\\cannonkoops-1.tas") }
-variations[11] = { groups = {"cannonkoops"}, insertAt =  800, inputs = load_tas_inputs("tas\\cannonkoops-2.tas") }
-variations[12] = { groups = {"cannonkoops"}, insertAt =  800, inputs = load_tas_inputs("tas\\cannonkoops-3.tas") }
-variations[13] = { groups = {"cannonkoops"}, insertAt =  800, inputs = load_tas_inputs("tas\\cannonkoops-4.tas") }
-variations[14] = { groups = {"cannonkoops"}, insertAt =  800, inputs = load_tas_inputs("tas\\cannonkoops-5.tas") }
-variations[15] = { groups = {"cannonbuzzy"}, insertAt =  927, inputs = load_tas_inputs("tas\\cannonbuzzy-1.tas") }
-variations[16] = { groups = {"cannonbuzzy"}, insertAt =  927, inputs = load_tas_inputs("tas\\cannonbuzzy-2.tas") }
-variations[17] = { groups = {"pen"},         insertAt = 1060, inputs = load_tas_inputs("tas\\pen-1.tas") }
-variations[18] = { groups = {"gauntlet"},    insertAt = 1320, inputs = load_tas_inputs("tas\\gauntlet-1.tas") }
+variations[1]  = { group = "LA", name = "DE", insertAt =  403, inputs = load_tas_inputs("tas\\lakitu-spiny-despawn.tas") }
+variations[2]  = { group = "LA", name = "EB", insertAt =  403, inputs = load_tas_inputs("tas\\lakitu-early-bop.tas") }
+variations[3]  = { group = "LA", name = "LB", insertAt =  403, inputs = load_tas_inputs("tas\\lakitu-late-bop.tas") }
+
+variations[4]  = { group = "H1", name = " E", insertAt =  580, inputs = load_tas_inputs("tas\\hallway-1-early.tas") }
+variations[5]  = { group = "H1", name = " L", insertAt =  580, inputs = load_tas_inputs("tas\\hallway-1-late.tas") }
+variations[5]  = { group = "H2", name = " 1", insertAt =  640, inputs = load_tas_inputs("tas\\hallway-2-1.tas") }
+variations[6]  = { group = "H2", name = " 2", insertAt =  640, inputs = load_tas_inputs("tas\\hallway-2-2.tas") }
+variations[7]  = { group = "H2", name = " 3", insertAt =  640, inputs = load_tas_inputs("tas\\hallway-2-3.tas") }
+variations[8]  = { group = "H2", name = " 4", insertAt =  640, inputs = load_tas_inputs("tas\\hallway-2-4.tas") }
+variations[9]  = { group = "H2", name = " 5", insertAt =  640, inputs = load_tas_inputs("tas\\hallway-2-5.tas") }
+
+variations[10] = { group = "CK", name = " 1", insertAt =  800, inputs = load_tas_inputs("tas\\cannonkoops-1.tas") }
+variations[11] = { group = "CK", name = " 2", insertAt =  800, inputs = load_tas_inputs("tas\\cannonkoops-2.tas") }
+variations[12] = { group = "CK", name = " 3", insertAt =  800, inputs = load_tas_inputs("tas\\cannonkoops-3.tas") }
+variations[13] = { group = "CK", name = " 4", insertAt =  800, inputs = load_tas_inputs("tas\\cannonkoops-4.tas") }
+variations[14] = { group = "CK", name = " 5", insertAt =  800, inputs = load_tas_inputs("tas\\cannonkoops-5.tas") }
+
+variations[15] = { group = "CB", name = " E", insertAt =  927, inputs = load_tas_inputs("tas\\cannonbuzzy-1.tas") }
+variations[16] = { group = "CB", name = " L", insertAt =  927, inputs = load_tas_inputs("tas\\cannonbuzzy-2.tas") }
+
+variations[17] = { group = "PN", name = " B", insertAt = 1060, inputs = load_tas_inputs("tas\\pen-1.tas") }
+
+variations[18] = { group = "GK", name = " B", insertAt = 1320, inputs = load_tas_inputs("tas\\gauntlet-1.tas") }
 
 
 --- final frame where the result is printed
