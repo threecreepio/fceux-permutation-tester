@@ -76,7 +76,7 @@ end
 -- run on each frame
 emu.registerafter(function ()
     -- set player to have 1 frame of iframes every frame
-    memory.writebyte(InjuryTimer, 0x1)
+    memory.writebyte(InjuryTimer, 0x02)
 
     -- if we're on the frame before the level becomes visible in base.tas
     if emu.framecount() == 250 then
