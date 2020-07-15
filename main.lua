@@ -1,7 +1,6 @@
 require('./utils/tas')
 require('./describe')
 
-local base = load_tas_inputs("tas\\base.tas")
 local log = io.open(filename, "w")
 local permutations = bit.lshift(1, #variations)
 local previous = -1

@@ -1,12 +1,13 @@
 require('./utils/smb')
 framerule = 548
 
+-- base file to include before all the variations
+base = load_tas_inputs("tas\\base.tas")
+
 --- csv file to write results into
 filename = string.format("%d.csv", framerule)
 
-
 variations = {}
-
 variations[1]  = { groups = {"lakitu"},      insertAt =  403, inputs = load_tas_inputs("tas\\lakitu-spiny-despawn.tas") }
 variations[2]  = { groups = {"lakitu"},      insertAt =  403, inputs = load_tas_inputs("tas\\lakitu-early-bop.tas") }
 variations[3]  = { groups = {"lakitu"},      insertAt =  403, inputs = load_tas_inputs("tas\\lakitu-late-bop.tas") }
