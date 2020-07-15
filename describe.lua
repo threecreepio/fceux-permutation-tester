@@ -26,8 +26,9 @@ variations[14] = { groups = {"cannonbuzzy"}, insertAt =  927, inputs = load_tas_
 variations[15] = { groups = {"pen"},         insertAt = 1060, inputs = load_tas_inputs("tas\\pen-1.tas") }
 variations[16] = { groups = {"gauntlet"},    insertAt = 1320, inputs = load_tas_inputs("tas\\gauntlet-1.tas") }
 
+
 --- final frame where the result is printed
-ending_frame = 1530
+ending_frame = 1529
 
 -- called on the final frame to print results to the csv file
 function writeresult(log)

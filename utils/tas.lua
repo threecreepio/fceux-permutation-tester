@@ -81,9 +81,15 @@ function jump_to_frame(target, after)
     emu.unpause()
 end
 
-function string:split(sep)
+function string:split_to_numbers(sep)
     local sep, fields = sep or ":", {}
     local pattern = string.format("([^%s]+)", sep)
-    self:gsub(pattern, function(c) fields[#fields+1] = c end)
+    self:gsub(pattern, function(c)
+        local num = tonumber(c)
+        if num == nil then
+            num = 0
+        end
+        fields[#fields+1] = num
+    end)
     return fields
 end

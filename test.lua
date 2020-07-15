@@ -7,6 +7,12 @@ permutationstring = "  ,  , 1, 5"
 
 
 ---
+selections = permutationstring:gsub("\\s+", ""):split_to_numbers(",")
+--selections = {}
+--selections[1] = 1
+--selections[5] = 1
+--selections[16] = 1
+
 local prev = nil
 prev = emu.registerafter(function ()
     if prev ~= nil then
@@ -31,11 +37,10 @@ prev = emu.registerafter(function ()
 end)
 
 
-local set_v = permutationstring:split(",")
 local base = load_tas_inputs("tas\\base.tas")
 apply_tas_inputs(base, 0)
 for v=1,#variations,1 do
-    if set_v[v] == " 1" then
+    if selections[v] == 1 then
         local variant = variations[v]
         print(string.format("applying %d - %s at frame %d", v, variant.inputs["filename"], variant.insertAt))
         apply_tas_inputs(variant.inputs, variant.insertAt)
