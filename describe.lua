@@ -1,6 +1,7 @@
 require('./utils/smb')
 -- which framerule to test
-framerule = 551
+framerule = arg
+if framerule == "" then framerule = 551 end
 
 -- base file to include before all the variations
 base = load_tas_inputs("tas\\base.tas")
@@ -74,21 +75,44 @@ function writeresult(log)
     end
 end
 
--- run on each frame
-emu.registerafter(function ()
-    -- set player to have 1 frame of iframes every frame
-    memory.writebyte(InjuryTimer, 0x02)
-
+-- attempts to move mario out of harms way..
+function hacky_move_mario()
     -- move player up to ground if we're falling to our death
     if memory.readbyte(Player_Y_Position) > 178 and memory.readbyte(Player_Y_HighPos) > 0 then
         memory.writebyte(Player_Y_Position, 176)
     end
 
     -- move player up to skip the gauntlet section
-    if emu.framecount() == 1351  then
+    if emu.framecount() == 1351 then
         memory.writebyte(Player_Y_Position, 0)
     end
 
+    -- move player down in the cannon section if he bounces up to a platform
+    if emu.framecount() == 895 then
+        memory.writebyte(Player_Y_Position, 170)
+    end
+
+    -- move player to just above the first koop if it's time to wail on him
+    if emu.framecount() == 835 then
+        local koopy = memory.readbyte(Enemy_Y_Position + getclosestenemy())
+        local playery = memory.readbyte(Player_Y_Position)
+        if playery < koopy then
+            memory.writebyte(Player_Y_Position, koopy - 20)
+        end
+    end
+
+    -- move player up in the cannon section to the cannon after the first koop
+    if emu.framecount() == 847 then
+        memory.writebyte(Player_Y_Position, 120)
+    end
+
+end
+
+-- run on each frame
+emu.registerafter(function ()
+    -- set player to have 1 frame of iframes every frame
+    memory.writebyte(InjuryTimer, 0x02)
+    hacky_move_mario()
     -- if we're on the frame before the level becomes visible in base.tas
     if emu.framecount() == 250 then
         local seed = smb1rng_init()

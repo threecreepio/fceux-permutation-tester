@@ -539,3 +539,27 @@ function smb1rng_read(seed)
     end
     return result
 end
+
+function abs(v)
+    if v < 0 then
+        return -v
+    end
+    return v
+end
+
+function getclosestenemy()
+    local px = EnemyX(-1)
+    local closest = 40
+    local result = -1
+    for i=0,5,1 do
+        if memory.readbyte(Enemy_Flag + i) == 1 then
+            local x = EnemyX(i)
+            local distance = abs(x - px)
+            if distance < closest then
+                result = i
+                closest = distance
+            end
+        end
+    end
+    return result
+end
