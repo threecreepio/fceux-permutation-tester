@@ -56,11 +56,19 @@ function cachebreak(frame)
     taseditor.setplayback(10000)
 end
 
-function apply_tas_inputs(inputs, frame)
-    j=frame
+function apply_tas_inputs(inputs, dest_frame, starting_frame, ending_frame)
+    j=dest_frame
     taseditor.stopseeking()
     taseditor.setplayback(0)
-    for i=0,1000000,1 do
+    local max = 1000000
+    local start = 0
+    if starting_frame ~= nil then
+        start = starting_frame
+    end
+    if ending_frame ~= nil then
+        max = ending_frame - starting_frame
+    end
+    for i=start,max,1 do
         line = inputs[i]
         if line == nil then
             break

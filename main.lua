@@ -53,7 +53,7 @@ function continue_permutations()
         for v=0,#variations_inv,1 do
             if bit.band(p, bit.lshift(1, v)) > 0 then
                 local variant = variations_inv[v + 1]
-                if variant.groups ~= nil and groups[variant.group] then
+                if variant.groups ~= nil then
                     for g=1,#variant.groups,1 do
                         if groups[variant.groups[g]] then
                             valid = false
@@ -75,8 +75,8 @@ function continue_permutations()
 
             log:flush()
             log:write(string.format("%s ", format_bits(p, #variations - 1)))
-            apply_tas_inputs(base, 0)
             starting_frame = find_starting_frame(previous, p)
+            apply_tas_inputs(base, starting_frame, starting_frame)
             for i=1,#configuration,1 do
                 print(string.format("applying %d - %s at frame %d", i, configuration[i].inputs.filename, configuration[i].insertAt))
                 apply_tas_inputs(configuration[i].inputs, configuration[i].insertAt)
