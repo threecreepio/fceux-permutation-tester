@@ -1,7 +1,10 @@
 require('./utils/smb')
 -- which framerule to test
-framerule = arg
-if framerule == "" then framerule = 551 end
+if framerule == nil then
+    framerule = arg
+end
+prefix_header = " FR"
+prefix_rows = string.format("%3d", framerule)
 
 -- base file to include before all the variations
 base = load_tas_inputs("tas\\base.tas")
@@ -9,41 +12,47 @@ base = load_tas_inputs("tas\\base.tas")
 --- csv file to write results into
 filename = string.format("%s.csv", framerule)
 
-variations = {}
-variations[1]  = { group = "LA", name = "DE", insertAt =  403, inputs = load_tas_inputs("tas\\lakitu-spiny-despawn.tas") }
-variations[2]  = { group = "LA", name = "EB", insertAt =  403, inputs = load_tas_inputs("tas\\lakitu-early-bop.tas") }
-variations[3]  = { group = "LA", name = "LB", insertAt =  403, inputs = load_tas_inputs("tas\\lakitu-late-bop.tas") }
+variations = {
+    { group = "1K", name = " E", insertAt =  320, inputs = load_tas_inputs("tas\\firstkoop-early.tas") },
+    { group = "1K", name = " L", insertAt =  320, inputs = load_tas_inputs("tas\\firstkoop-late.tas") },
+    
+    { group = "2K", name = " B", insertAt =  370, inputs = load_tas_inputs("tas\\secondkoop-bop.tas") },
 
-variations[4]  = { group = "H1", name = " E", insertAt =  580, inputs = load_tas_inputs("tas\\hallway-1-early.tas") }
-variations[5]  = { group = "H1", name = " L", insertAt =  580, inputs = load_tas_inputs("tas\\hallway-1-late.tas") }
-variations[5]  = { group = "H2", name = " 1", insertAt =  640, inputs = load_tas_inputs("tas\\hallway-2-1.tas") }
-variations[6]  = { group = "H2", name = " 2", insertAt =  640, inputs = load_tas_inputs("tas\\hallway-2-2.tas") }
-variations[7]  = { group = "H2", name = " 3", insertAt =  640, inputs = load_tas_inputs("tas\\hallway-2-3.tas") }
-variations[8]  = { group = "H2", name = " 4", insertAt =  640, inputs = load_tas_inputs("tas\\hallway-2-4.tas") }
-variations[9]  = { group = "H2", name = " 5", insertAt =  640, inputs = load_tas_inputs("tas\\hallway-2-5.tas") }
+    { group = "LA", name = " D", insertAt =  419, inputs = load_tas_inputs("tas\\lakitu-spiny-despawn.tas") },
+    { group = "LA", name = " E", insertAt =  419, inputs = load_tas_inputs("tas\\lakitu-early-bop.tas") },
+    { group = "LA", name = " L", insertAt =  419, inputs = load_tas_inputs("tas\\lakitu-late-bop.tas") },
 
-variations[10] = { group = "CK", name = " 1", insertAt =  800, inputs = load_tas_inputs("tas\\cannonkoops-1.tas") }
-variations[11] = { group = "CK", name = " 2", insertAt =  800, inputs = load_tas_inputs("tas\\cannonkoops-2.tas") }
-variations[12] = { group = "CK", name = " 3", insertAt =  800, inputs = load_tas_inputs("tas\\cannonkoops-3.tas") }
-variations[13] = { group = "CK", name = " 4", insertAt =  800, inputs = load_tas_inputs("tas\\cannonkoops-4.tas") }
-variations[14] = { group = "CK", name = " 5", insertAt =  800, inputs = load_tas_inputs("tas\\cannonkoops-5.tas") }
-
-variations[15] = { group = "CB", name = " E", insertAt =  927, inputs = load_tas_inputs("tas\\cannonbuzzy-1.tas") }
-variations[16] = { group = "CB", name = " L", insertAt =  927, inputs = load_tas_inputs("tas\\cannonbuzzy-2.tas") }
-
-variations[17] = { group = "PN", name = " B", insertAt = 1060, inputs = load_tas_inputs("tas\\pen-1.tas") }
-
-variations[18] = { group = "GK", name = " B", insertAt = 1320, inputs = load_tas_inputs("tas\\gauntlet-1.tas") }
-
+    { group = "H1", name = " E", insertAt =  580, inputs = load_tas_inputs("tas\\hallway-1-early.tas") },
+    { group = "H1", name = " L", insertAt =  580, inputs = load_tas_inputs("tas\\hallway-1-late.tas") },
+    
+    { group = "H2", name = " 1", insertAt =  640, inputs = load_tas_inputs("tas\\hallway-2-1.tas") },
+    { group = "H2", name = " 2", insertAt =  640, inputs = load_tas_inputs("tas\\hallway-2-2.tas") },
+    { group = "H2", name = " 3", insertAt =  640, inputs = load_tas_inputs("tas\\hallway-2-3.tas") },
+    { group = "H2", name = " 4", insertAt =  640, inputs = load_tas_inputs("tas\\hallway-2-4.tas") },
+    { group = "H2", name = " 5", insertAt =  640, inputs = load_tas_inputs("tas\\hallway-2-5.tas") },
+    
+    { group = "CK", name = " 1", insertAt =  800, inputs = load_tas_inputs("tas\\cannonkoops-1.tas") },
+    { group = "CK", name = " 2", insertAt =  800, inputs = load_tas_inputs("tas\\cannonkoops-2.tas") },
+    { group = "CK", name = " 3", insertAt =  800, inputs = load_tas_inputs("tas\\cannonkoops-3.tas") },
+    { group = "CK", name = " 4", insertAt =  800, inputs = load_tas_inputs("tas\\cannonkoops-4.tas") },
+    { group = "CK", name = " 5", insertAt =  800, inputs = load_tas_inputs("tas\\cannonkoops-5.tas") },
+    
+    { group = "CB", name = " E", insertAt =  927, inputs = load_tas_inputs("tas\\cannonbuzzy-1.tas") },
+    { group = "CB", name = " L", insertAt =  927, inputs = load_tas_inputs("tas\\cannonbuzzy-2.tas") },
+    
+    { group = "PN", name = " B", insertAt = 1060, inputs = load_tas_inputs("tas\\pen-1.tas") },
+    
+    { group = "GK", name = " B", insertAt = 1320, inputs = load_tas_inputs("tas\\gauntlet-1.tas") },
+}
 
 --- final frame where the result is printed
 ending_frame = 1529
 
--- called on the final frame to print results to the csv file
-function writeresult(log)
+
+function write_bullet_positions(log)
     -- mark as failed if mario didnt make it to the end of the stage
     if EnemyX(-1) < 3000 then
-        log:write("failed")
+        log:write("   FAILED,   FAILED,")
         print("failed to reach the end!")
         return
     end
@@ -54,25 +63,58 @@ function writeresult(log)
         if memory.readbyte(Enemy_ID + i) == BulletBill_CannonVar then
             -- ignore any bullets heading the wrong direction
             if memory.readbytesigned(Enemy_X_Speed + i) > 0 then
-                bullets[EnemyY(i)] = EnemyX(i)
+                bullets[EnemyY(i)] = i
             end
         end
     end
 
     -- write out bullet positions to the log file
     if bullets[56] ~= nil then
-        log:write(string.format("L-%d", bullets[56]))
-        print(string.format("L-%d", bullets[56]))
+        local id = bullets[56]
+        local mf = memory.readbyte(Enemy_X_MoveForce + id)
+        local mfi = 0
+        if mf >= 0x80 then mfi = 1 end
+        log:write(string.format(" L-%X-%04d,", bit.ror(mf, 4), EnemyX(id)))
+        print(string.format("L-%X-%04d", bit.ror(mf, 4), EnemyX(id)))
     else
-        log:write("      ")
+        log:write("         ,")
     end
-    log:write(",")
     if bullets[88] ~= nil then
-        log:write(string.format("H-%d", bullets[88]))
-        print(string.format("H-%d", bullets[88]))
+        local id = bullets[88]
+        local mf = memory.readbyte(Enemy_X_MoveForce + id)
+        local mfi = 0
+        if mf >= 0x80 then mfi = 1 end
+        log:write(string.format(" H-%X-%04d,", bit.ror(mf, 4), EnemyX(id)))
+        print(string.format("H-%X-%04d", bit.ror(mf, 4), EnemyX(id)))
     else
-        log:write("      ")
+        log:write("         ,")
     end
+end
+
+-- called on the final frame to print results to the csv file
+function writeresult(log, finish)
+    local ofs = 0
+    function delay()
+        if ofs >= 3 then
+            for i=1,4,1 do
+                taseditor.submitinputchange(1243 + i, 1, tasline_to_input("BA"))
+            end
+            taseditor.applyinputchanges()
+            return finish()
+        end
+        ofs = ofs + 1
+        for i=1,ofs,1 do
+            taseditor.submitinputchange(1243 + i, 1, tasline_to_input("BLA"))
+        end
+        taseditor.applyinputchanges()
+        jump_to_frame(ending_frame, function ()
+            write_bullet_positions(log)
+            delay()
+        end)
+    end
+    write_bullet_positions(log)
+    cachebreak(1257)
+    jump_to_frame(1258, delay)
 end
 
 -- attempts to move mario out of harms way..
@@ -81,6 +123,11 @@ function hacky_move_mario()
     if memory.readbyte(Player_Y_Position) > 178 and memory.readbyte(Player_Y_HighPos) > 0 then
         memory.writebyte(Player_Y_Position, 176)
     end
+
+    -- simulate slow pipe clear??
+    --if emu.framecount() == 1280 then
+    --    memory.writebyte(Player_X_Position, memory.readbyte(Player_X_Position) - offset_mario_px)
+    --end
 
     -- move player up to skip the gauntlet section
     if emu.framecount() == 1351 then
@@ -105,7 +152,6 @@ function hacky_move_mario()
     if emu.framecount() == 847 then
         memory.writebyte(Player_Y_Position, 120)
     end
-
 end
 
 -- run on each frame

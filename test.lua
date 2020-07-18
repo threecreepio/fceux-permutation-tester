@@ -1,15 +1,15 @@
 require('./utils/tas')
-require('./describe')
-
 -- set permutation string from the lua window arguments
 permutationstring = arg
 
 ---
-selections = permutationstring:gsub("\\s+", ""):split_to_numbers(",")
+selections = permutationstring:gsub("\\s+", ""):split(",")
 --selections = {}
---selections[1] = 1
---selections[5] = 1
---selections[16] = 1
+--selections[12] = 1
+--selections[13] = 1
+
+framerule = tonumber(selections[1])
+require('./describe')
 
 local prev = nil
 prev = emu.registerafter(function ()
@@ -21,15 +21,19 @@ prev = emu.registerafter(function ()
         for i=0,5,1 do
             if memory.readbyte(Enemy_ID + i) == BulletBill_CannonVar then
                 if memory.readbytesigned(Enemy_X_Speed + i) > 0 then
-                    bullets[EnemyY(i)] = EnemyX(i)
+                    bullets[EnemyY(i)] = i
                 end
             end
         end
         if bullets[56] ~= nil then
-            print(string.format("L-%d", bullets[56]))
+            local id = bullets[56]
+            local mf = memory.readbyte(Enemy_X_MoveForce + id)
+            print(string.format("L-%02X-%d", mf, EnemyX(id)))
         end
         if bullets[88] ~= nil then
-            print(string.format("H-%d", bullets[88]))
+            local id = bullets[88]
+            local mf = memory.readbyte(Enemy_X_MoveForce + id)
+            print(string.format("H-%02X-%d", mf, EnemyX(id)))
         end
     end
 end)
@@ -56,7 +60,7 @@ cachebreak(1)
 
 for v=1,#variations,1 do
     local variant = variations[v]
-    if selections[variant.group_id] == variant.name then
+    if selections[variant.group_id + 1] == variant.name then
         print(string.format("applying %d - %s at frame %d", v, variant.inputs["filename"], variant.insertAt))
         apply_tas_inputs(variant.inputs, variant.insertAt)
     end

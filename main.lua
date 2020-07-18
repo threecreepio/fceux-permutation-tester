@@ -1,9 +1,46 @@
 require('./utils/tas')
 require('./describe')
 
-local log = io.open(filename, "w")
+local log_exists = false
+local log = io.open(filename, "r")
+if log ~= nil then
+    log_exists = true
+    log:close()
+end
+
+variations_inv = {}
+for i=#variations,1,-1 do
+    variations_inv[#variations_inv + 1] = variations[i]
+    variations[i].variation_index = i
+end
+
+function get_configuration_for_permutation(p)
+    local valid = true
+    local configuration = {}
+    local groups = {}
+    for v=0,#variations_inv,1 do
+        if bit.band(p, bit.lshift(1, v)) > 0 then
+            local variant = variations_inv[v + 1]
+            if variant.group_id ~= nil and groups[variant.group_id] then
+                valid = false
+                break
+            end
+            groups[variant.group_id] = true
+            configuration[#configuration + 1] = variant
+        end
+    end
+    if valid == false then
+        return nil
+    end
+    return configuration
+end
+
+local log = io.open(filename, "a+")
+if log_exists == false then
+    log:write(string.format("%s,", prefix_header))
+end
+
 local permutations = bit.lshift(1, #variations)
-local previous = -1
 
 local groups = {}
 local group_idx = 1
@@ -14,19 +51,34 @@ for i=1,#variations,1 do
         variations[i].group_id = group_idx
         variations[i].group_index = 1
         group_idx = group_idx + 1
-        log:write(string.format("%s,", group))
+        if log_exists == false then
+            log:write(string.format("%s,", group))
+        end
     else
         variations[i].group_id = groups[group].index
         variations[i].group_index = groups[group].count
         groups[group].count = groups[group].count + 1
     end
 end
-log:write("result\n")
+if log_exists == false then
+    log:write("result\n")
+end
 
-variations_inv = {}
-for i=#variations,1,-1 do
-    variations_inv[#variations_inv + 1] = variations[i]
-    variations[i].variation_index = i
+local previous = -1
+if log_exists then
+    print("restoring position..")
+    local target = 0
+    for l in io.lines(filename) do
+        target = target + 1
+    end
+    while target > 1 do
+        previous = previous + 1
+        local cfg = get_configuration_for_permutation(previous)
+        if cfg ~= nil then
+            print(string.format("restoring position... %d", target))
+            target = target - 1
+        end
+    end
 end
 
 function find_starting_frame(previous, next)
@@ -65,25 +117,11 @@ end
 
 function continue_permutations()
     for p=previous+1,permutations-1,1 do
-        local valid = true
-        local configuration = {}
-        local groups = {}
-        for v=0,#variations_inv,1 do
-            if bit.band(p, bit.lshift(1, v)) > 0 then
-                local variant = variations_inv[v + 1]
-                if variant.group_id ~= nil and groups[variant.group_id] then
-                    valid = false
-                    break
-                end
-                groups[variant.group_id] = true
-                configuration[#configuration + 1] = variant
-            end
-        end
-        if valid then
+        local configuration = get_configuration_for_permutation(p)
+        if configuration ~= nil then
             print("---")
             print(string.format("running #%d", p))
             log:flush()
-            log:write(format_row(configuration))
             starting_frame = find_starting_frame(previous, p)
             apply_tas_inputs(base, starting_frame, starting_frame)
             for i=1,#configuration,1 do
@@ -92,18 +130,22 @@ function continue_permutations()
             end
             previous = p
             jump_to_frame(ending_frame, function ()
-                writeresult(log)
-                log:write("\n")
-                log:flush()
-                continue_permutations()
+                log:write(string.format("%s,%s", prefix_rows, format_row(configuration)))
+                writeresult(log, function()
+                    log:write("\n")
+                    log:flush()
+                    continue_permutations()
+                end)
             end)
             return
         end
     end
 
     log:close()
+    print("we only bloody did it.")
     emu.pause()
 end
 
+apply_tas_inputs(base, 0)
 cachebreak(1)
 continue_permutations()
