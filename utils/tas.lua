@@ -106,3 +106,23 @@ function string:split(sep)
     end)
     return fields
 end
+
+function array_join(arr, sep)
+    local str = ""
+    for i=1,#arr,1 do
+        local sepv = ""
+        if i > 1 then
+            sepv = sep
+        end
+        str = string.format("%s%s%s", str, sepv, tostring(arr[i]))
+    end
+    return str
+end
+
+function array_find(v, fn)
+    for i=1,#v,1 do
+        if fn(v[i], i, v) == true then
+            return i, v[i]
+        end
+    end
+end

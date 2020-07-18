@@ -45,22 +45,20 @@ The file "describe.lua" defines the different tas files to load in and how to de
 What's most important is the list of variations, these look like:
 
 ```
-variations[1] = {
-    group = "Door ",
-    name  = "Early",
-    insertAt = 2000,
-    inputs = load_tas_inputs("tas\\enter-door-early.tas")
-}
-variations[2] = {
-    group = "Door ",
-    name  = "Late ",
-    insertAt = 2000,
-    inputs = load_tas_inputs("tas\\enter-door-late.tas")
-}
+groups = {
+    {
+        
+        name = "1K",
+        variations = {
+            { name = "  ", insertAt =  320, inputs = load_tas_inputs("tas\\empty.tas") },
+            { name = " E", insertAt =  320, inputs = load_tas_inputs("tas\\firstkoop-early.tas") },
+            { name = " L", insertAt =  320, inputs = load_tas_inputs("tas\\firstkoop-late.tas") }
+        }
+    }
 ```
 
-The number in 'variantions[1]' is which column in the resulting csv file will indicate if this tas file was loaded or not
-so the very first column in the output file will be 1 if that permutation used this tas file.
+Each group has a name, in this case "1K" which is printed on the top line of the CSV file, and each variation in that group has a name which is printed on the row.
+To make the CSV file more readable I would recommend keeping all of the names the same length within a group.. That way it'll line up nicely!
 
 insertAt is where in the tas file this variation should be inserted, so for this example the inputs from the enter-door-early.tas file
 will be written starting on frame 2000.
@@ -68,9 +66,7 @@ will be written starting on frame 2000.
 To create the tas files, select some frames in FCEUX tas editor, copy them, and paste them into a text file and save it as "whatever.tas"
 
 The script that runs the tas will make sure there's only one variation loaded per "group", so if you have two scripts like "enter-door-early" and "enter-door-late"
-that conflict with eachother you can place them in an "Door" group for example and they will never be used at the same time.
-
-Every variation must have a group, and the "group" and "name" values should have the same length if you want the CSV file to be easy to read.
+that conflict with eachother you can place them in the same "Door" group for example and they will never be used at the same time.
 
 ## Printing results
 
